@@ -89,13 +89,14 @@ def choice_char_class(char_name: str) -> Character:
     return char_class
 
 
-def start_training(char_name: str, char_class: str) -> str:
-    if char_class == 'warrior':
-        print(f'{char_name}, ты Воитель — отличный боец ближнего боя.')
-    if char_class == 'mage':
-        print(f'{char_name}, ты Маг — превосходный укротитель стихий.')
-    if char_class == 'healer':
-        print(f'{char_name}, ты Лекарь — чародей, способный исцелять раны.')
+def start_training(character: Character) -> str:
+    """
+    Запускает тренировку персонажа.
+    """
+    commands = {'attack': Character.attack,
+                'defence': Character.defence,
+                'special': Character.special}
+
     print('Потренируйся управлять своими навыками.')
     print('Введи одну из команд: '
           'attack — чтобы атаковать противника, '
@@ -105,12 +106,9 @@ def start_training(char_name: str, char_class: str) -> str:
     cmd: str = ''
     while cmd != 'skip':
         cmd = input('Введи команду: ')
-        if cmd == 'attack':
-            print(attack(char_name, char_class))
-        if cmd == 'defence':
-            print(defence(char_name, char_class))
-        if cmd == 'special':
-            print(special(char_name, char_class))
+        if cmd in commands:
+            # Вызываем метод класса, соответствующий введённой команде
+            print(commands[cmd](character))
     return 'Тренировка окончена.'
 
 
@@ -124,4 +122,4 @@ if __name__ == '__main__':
     print('Ты можешь выбрать один из трёх путей силы:')
     print('Воитель, Маг, Лекарь')
     char_class = input('Выбери класс персонажа: ')
-    print(start_training(char_name, char_class))
+    print(start_training(char_class))
